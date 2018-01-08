@@ -45,8 +45,8 @@ function getBinSize(bin: string[]): number {
 }
 
 function readData(): string {
-  return fs.readFileSync("./test_file.txt", "utf8");
-  // return fs.readFileSync("./alastalon_salissa.txt", "utf8");
+  // return fs.readFileSync("./test_file.txt", "utf8");
+  return fs.readFileSync("./alastalon_salissa.txt", "utf8");
 }
 
 function writeFile(bins: string[][]) {
