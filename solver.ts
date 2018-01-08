@@ -4,7 +4,9 @@ import * as _ from "lodash";
 function main() {
   const data = readData();
   const cleanedData = cleanData(data);
-  console.log(cleanedData.length);
+  const groupedData = _.groupBy(cleanedData, word => _.size(word) + 1);
+  const sized = _.mapValues(groupedData, value => value.length);
+  console.log(sized);
 }
 
 function readData(): string {
