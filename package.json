@@ -1,0 +1,11 @@
+{
+  "name": "shortest-edition",
+  "version": "1.0.0",
+  "description": "Winter 2017 Wundernut solution",
+  "main": "solver.ts",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "Miro Nurmela",
+  "license": "ISC"
+}
