@@ -1,2 +1,4 @@
-var asd = 2;
-console.log(asd);
+function main() {
+    console.log("WHHWHWHWH");
+}
+main();
