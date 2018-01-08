@@ -1,3 +1,5 @@
 node_modules
-result.txt
+*.txt
+!alastalon_salissa.txt
+!test_file.txt
 solver.js

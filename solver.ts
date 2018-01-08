@@ -8,10 +8,18 @@ import * as _ from "lodash";
 const BIN_SIZE = 81;
 
 function main() {
-  const data = readData();
+  const args = process.argv;
+  if (args.length !== 4) {
+    console.log("Usage: npm run solve [source data file path] [result file path]");
+    return 1;
+  }
+  const sourcePath = args[2];
+  const resultPath = args[3];
+  const data = readData(sourcePath);
   const cleanedData = cleanData(data);
   const packed = bestFitDecreasing(cleanedData, BIN_SIZE);
-  writeFile(packed);
+  writeFile(packed, resultPath);
+  return 0;
 }
 
 interface SpaceIndex {
@@ -23,7 +31,7 @@ function bestFitDecreasing(items: string[], binSize: number): string[][] {
   const spacesAddedItems = _.map(items, item => item += " ");
   const sortedDescending = _.sortBy(spacesAddedItems, word => -1 * word.length);
   let bins: string[][] = [];
-  _.forEach(sortedDescending, item => {
+  _.forEach(sortedDescending, (item, itemIndex) => {
     let spaceIndex: SpaceIndex = { index: -1, spaceLeft: binSize };
     _.forEach(bins, (bin, binIndex) => {
       const remainingSpace = binSize - getBinSize(bin);
@@ -36,6 +44,7 @@ function bestFitDecreasing(items: string[], binSize: number): string[][] {
     } else {
       bins.push([item]);
     }
+    if (!(itemIndex % 100)) console.log(itemIndex + 1 + " words processed");
   });
   return bins;
 }
@@ -44,14 +53,13 @@ function getBinSize(bin: string[]): number {
   return _.sum(_.map(bin, word => word.length));
 }
 
-function readData(): string {
-  // return fs.readFileSync("./test_file.txt", "utf8");
-  return fs.readFileSync("./alastalon_salissa.txt", "utf8");
+function readData(path: string): string {
+  return fs.readFileSync(path, "utf8");
 }
 
-function writeFile(bins: string[][]) {
+function writeFile(bins: string[][], path: string) {
   const binsCombined = _.map(bins, bin => _.join(bin, "").slice(0, -1));
-  fs.writeFile("./result.txt", _.join(binsCombined, "\n"), (err) => console.log(err));
+  fs.writeFile(path, _.join(binsCombined, "\n"), (err) => console.log(err));
 }
 
 function cleanData(data: string): string[] {
