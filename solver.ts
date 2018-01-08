@@ -9,15 +9,16 @@ const BIN_SIZE = 81;
 
 function main() {
   const args = process.argv;
-  if (args.length !== 4) {
-    console.log("Usage: npm run solve [source data file path] [result file path]");
+  if (args.length < 4) {
+    console.log("Usage: npm run solve [source data file path] [result file path] [optional: show_progress]");
     return 1;
   }
   const sourcePath = args[2];
   const resultPath = args[3];
+  const showProgress = args[4] && args[4] === "show_progress";
   const data = readData(sourcePath);
   const cleanedData = cleanData(data);
-  const packed = bestFitDecreasing(cleanedData, BIN_SIZE);
+  const packed = bestFitDecreasing(cleanedData, BIN_SIZE, showProgress);
   writeFile(packed, resultPath);
   return 0;
 }
@@ -27,7 +28,7 @@ interface SpaceIndex {
   spaceLeft: number;
 }
 
-function bestFitDecreasing(items: string[], binSize: number): string[][] {
+function bestFitDecreasing(items: string[], binSize: number, showProgress: boolean): string[][] {
   const spacesAddedItems = _.map(items, item => item += " ");
   const sortedDescending = _.sortBy(spacesAddedItems, word => -1 * word.length);
   let bins: string[][] = [];
@@ -44,7 +45,7 @@ function bestFitDecreasing(items: string[], binSize: number): string[][] {
     } else {
       bins.push([item]);
     }
-    if (!(itemIndex % 100)) console.log(itemIndex + 1 + " words processed");
+    if (!(itemIndex % 5000) && showProgress) console.log(itemIndex + 1 + " words processed");
   });
   return bins;
 }
