@@ -2,10 +2,15 @@
   "name": "shortest-edition",
   "version": "1.0.0",
   "description": "Winter 2017 Wundernut solution",
-  "main": "solver.ts",
+  "main": "solver.js",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "solve": "tsc solver.ts && node solver.js",
+    "build": "tsc solver.ts"
   },
   "author": "Miro Nurmela",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "typescript": "^2.6.2"
+  }
 }
