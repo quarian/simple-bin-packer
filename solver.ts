@@ -36,8 +36,11 @@ function bestFitDecreasing(items: string[], binSize: number, showProgress: boole
     let spaceIndex: SpaceIndex = { index: -1, spaceLeft: binSize };
     _.forEach(bins, (bin, binIndex) => {
       const remainingSpace = binSize - getBinSize(bin);
-      if (remainingSpace > item.length && remainingSpace - item.length < spaceIndex.spaceLeft) {
+      if (remainingSpace >= item.length && remainingSpace - item.length <= spaceIndex.spaceLeft) {
         spaceIndex = { index: binIndex, spaceLeft: remainingSpace - item.length};
+      }
+      if (spaceIndex.spaceLeft === 0) {
+        return false;
       }
     });
     if (spaceIndex.index > -1) {
@@ -48,6 +51,10 @@ function bestFitDecreasing(items: string[], binSize: number, showProgress: boole
     if (!(itemIndex % 5000) && showProgress) console.log(itemIndex + 1 + " words processed");
   });
   return bins;
+}
+
+function calculateWastedSpace(items: string[], binSize: number, showProgress: boolean) {
+
 }
 
 function getBinSize(bin: string[]): number {
